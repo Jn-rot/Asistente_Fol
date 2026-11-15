@@ -34,10 +34,8 @@
     "files": [
       "!config.js",
       "**/*",
-      "!demostraciones/**",
       "!tmp/**",
       "!*.md",
-      "!LEEME-DEPENDENCIAS.txt",
       "!package-lock.json"
     ],
     "linux": {

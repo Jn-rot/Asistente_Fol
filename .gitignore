@@ -20,3 +20,6 @@ tmp/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Archivos no necesarios
+*.mp4
