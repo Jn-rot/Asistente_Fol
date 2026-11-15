@@ -327,6 +327,13 @@ function cargarSesion(s) {
     renderSesiones("")
 }
 
+function eliminarSesion(s) {
+    sessions = sessions.filter(x => x !== s)
+    if (curSession === s) nuevaConversacion()
+    renderSesiones(searchInput ? searchInput.value : "")
+    guardarSesiones()
+}
+
 function renderSesiones(filtro) {
     if (!sessionsEl) return
     sessionsEl.innerHTML = ""
@@ -341,10 +348,17 @@ function renderSesiones(filtro) {
             <div class="session-info">
                 <div class="session-title"></div>
                 <div class="session-time"></div>
-            </div>`
+            </div>
+            <button class="session-del" title="Eliminar conversación" aria-label="Eliminar conversación">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v5M14 11v5"/></svg>
+            </button>`
         row.querySelector(".session-title").textContent = s.title
         row.querySelector(".session-time").textContent = s.time
         row.addEventListener("click", () => cargarSesion(s))
+        row.querySelector(".session-del").addEventListener("click", e => {
+            e.stopPropagation()
+            eliminarSesion(s)
+        })
         sessionsEl.appendChild(row)
     })
 }
