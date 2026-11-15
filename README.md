@@ -6,6 +6,17 @@ Asistente conversacional flotante con interfaz tipo *Claude Code*, construido co
 
 ---
 
+## ⬇️ Descargar
+
+Los instaladores están en **Releases** (no en la lista de archivos del repositorio):
+
+- **Página de descargas:** <https://github.com/Jn-rot/Asistente_Fol/releases/latest>
+- **Windows:** [Fol-Setup-1.0.1.exe](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.1/Fol-Setup-1.0.1.exe)
+- **Linux AppImage:** [Fol-1.0.1.AppImage](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.1/Fol-1.0.1.AppImage)
+- **Linux .deb:** [asistentefinal_1.0.1_amd64.deb](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.1/asistentefinal_1.0.1_amd64.deb)
+
+---
+
 ## Características
 
 - Burbuja flotante que se transforma en panel de chat (morph).
