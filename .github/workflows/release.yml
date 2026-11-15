@@ -30,6 +30,15 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
+      - name: Configurar API key
+        shell: bash
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          if [ -n "$GROQ_API_KEY" ]; then
+            printf "const API_KEY = '%s'\nmodule.exports = { API_KEY }\n" "$GROQ_API_KEY" > config.js
+          fi
+
       - name: Compilar y publicar
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

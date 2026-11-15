@@ -53,7 +53,9 @@ Asistente conversacional flotante con interfaz tipo *Claude Code*, construido co
 
 ## Configurar la API key
 
-La app necesita una API key de Groq para el chat y la voz.
+Los instaladores publicados en **Releases** ya salen con una key configurada
+(inyectada durante el build desde el secreto `GROQ_API_KEY`), así que funcionan
+directamente. Aun así, cada usuario puede usar su propia key:
 
 1. Crea una cuenta en <https://console.groq.com>.
 2. Ve a **API Keys** → **Create API Key**.
@@ -62,7 +64,7 @@ La app necesita una API key de Groq para el chat y la voz.
 
 La key se almacena cifrada en el equipo (nunca se sube al repositorio).
 
-> Alternativa para desarrollo: crea un `config.js` en la raíz con:
+> Solo para desarrollo: crea un `config.js` en la raíz con:
 > ```js
 > const API_KEY = 'gsk_tu_clave'
 > module.exports = { API_KEY }
@@ -138,7 +140,8 @@ El workflow de GitHub Actions compila Linux y Windows y publica los artefactos e
 
 - Las conversaciones se guardan en `~/.config/asistentefinal/` (Linux) o `%APPDATA%/asistentefinal/` (Windows).
 - Los archivos `sesiones.bin` y `apikey.bin` usan cifrado del sistema (`safeStorage`) y permisos restringidos (`0600`). Si el llavero no está disponible, se guardan en texto plano con permisos restringidos.
-- `config.js` **nunca** se sube al repositorio.
+- `config.js` **nunca** se sube al repositorio; en CI se genera desde el secreto `GROQ_API_KEY` solo durante el build.
+- La key incluida en los instaladores puede extraerse del binario (igual que cualquier app de escritorio). Si se filtra, revócala en Groq y publica una nueva versión.
 - No se envían conversaciones a servidores propios: el chat va directo a Groq y las imágenes a Pollinations.
 
 ---

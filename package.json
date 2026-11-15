@@ -1,6 +1,6 @@
 {
   "name": "asistentefinal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fol: asistente conversacional de escritorio con chat, voz, imágenes y sesiones locales cifradas",
   "main": "main.js",
   "author": "Jannel (Jn-rot)",
@@ -33,7 +33,6 @@
     },
     "files": [
       "**/*",
-      "!config.js",
       "!demostraciones/**",
       "!tmp/**",
       "!*.md",
@@ -60,7 +59,8 @@
     "publish": {
       "provider": "github",
       "owner": "Jn-rot",
-      "repo": "Asistente_Fol"
+      "repo": "Asistente_Fol",
+      "releaseType": "release"
     }
   },
   "keywords": [],
