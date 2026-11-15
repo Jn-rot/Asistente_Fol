@@ -11,9 +11,11 @@ Asistente conversacional flotante con interfaz tipo *Claude Code*, construido co
 Los instaladores están en **Releases** (no en la lista de archivos del repositorio):
 
 - **Página de descargas:** <https://github.com/Jn-rot/Asistente_Fol/releases/latest>
-- **Windows:** [Fol-Setup-1.0.3.exe](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.3/Fol-Setup-1.0.3.exe)
-- **Linux AppImage:** [Fol-1.0.3.AppImage](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.3/Fol-1.0.3.AppImage)
-- **Linux .deb:** [asistentefinal_1.0.3_amd64.deb](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.3/asistentefinal_1.0.3_amd64.deb)
+- **Windows:** [Fol-Setup-1.0.4.exe](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.4/Fol-Setup-1.0.4.exe)
+- **Linux AppImage:** [Fol-1.0.4.AppImage](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.4/Fol-1.0.4.AppImage)
+- **Linux .deb:** [asistentefinal_1.0.4_amd64.deb](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.4/asistentefinal_1.0.4_amd64.deb)
+
+> En Windows, al desinstalar se eliminan también los chats y la key guardada.
 
 > Los instaladores **no incluyen** ninguna API key. Al abrir la app por primera vez, entra en **Ajustes ⚙** y pega la key que te haya compartido el autor (o usa la tuya propia de Groq).
 
