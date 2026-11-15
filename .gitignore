@@ -1,0 +1,22 @@
+# Dependencias
+node_modules/
+
+# Secretos y configuración local
+config.js
+
+# Builds y empaquetado
+dist/
+release/
+*.AppImage
+*.deb
+*.exe
+*.msi
+*.dmg
+
+# Logs y temporales
+*.log
+tmp/
+
+# Sistema
+.DS_Store
+Thumbs.db

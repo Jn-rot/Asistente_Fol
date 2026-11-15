@@ -1,0 +1,563 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: transparent;
+    font-family: system-ui, sans-serif;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* ==========================
+UNA SOLA SUPERFICIE.
+El círculo NO desaparece: se deforma y se convierte en el panel.
+========================== */
+
+.entidad {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    cursor: grab;
+    overflow: hidden;
+    background: transparent;
+
+    transition:
+        width .95s cubic-bezier(.2, .85, .2, 1),
+        height .95s cubic-bezier(.2, .85, .2, 1),
+        left .95s cubic-bezier(.2, .85, .2, 1),
+        top .95s cubic-bezier(.2, .85, .2, 1),
+        border-radius .95s cubic-bezier(.2, .85, .2, 1),
+        background .7s ease;
+
+    will-change: transform;
+}
+
+.entidad:active {
+    cursor: grabbing;
+}
+
+.entidad.open {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 27px;
+    cursor: default;
+
+    background:
+        linear-gradient(160deg,
+            #14404a 0%,
+            #0c2a31 42%,
+            #071a1f 100%);
+
+    border: 1px solid rgba(127, 229, 222, .16);
+}
+
+/* Fuera de la burbuja (colapsada), solo la zona de clic centrada
+   en el diseño responde; el resto del rectángulo es transparente. */
+.entidad:not(.open) {
+    pointer-events: none;
+}
+
+.entidad.open {
+    pointer-events: auto;
+}
+
+.hit {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    width: 52px;
+    height: 52px;
+    margin: -26px 0 0 -26px;
+    border-radius: 50%;
+    cursor: grab;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.hit:active {
+    cursor: grabbing;
+}
+
+.entidad.open .hit {
+    display: none;
+}
+
+/* ==========================
+CARA (se integra en la transformación, no se reemplaza)
+========================== */
+
+.cara {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 85px;
+    height: 85px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: none;
+    transition:
+        transform .85s cubic-bezier(.2, .85, .2, 1),
+        opacity .42s ease,
+        filter .65s ease;
+}
+
+.entidad.open .cara {
+    transform: translate(-9px, -9px) scale(.58);
+    opacity: 0;
+    filter: blur(6px);
+}
+
+.ojos {
+    display: flex;
+    gap: 10px;
+}
+
+.ojo {
+    width: 22px;
+    height: 26px;
+    border-radius: 50%;
+    background: #f2f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: .12s ease;
+}
+
+.pupila {
+    position: absolute;
+    width: 9px;
+    height: 12px;
+    left: 6px;
+    top: 7px;
+    border-radius: 50%;
+    background: #141a38;
+}
+
+.boca {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* ==========================
+OJOS TIPO PÍLDORA QUE SIGUEN AL RATÓN
+========================== */
+
+.eye-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 44px;
+    pointer-events: none;
+}
+
+.eye-core {
+    width: 36px;
+    height: 56px;
+    background: #06453f;
+    border-radius: 18px;
+    box-shadow:
+        0 0 6px rgba(6, 69, 63, .7),
+        0 0 14px rgba(6, 69, 63, .35);
+    transition:
+        transform .35s cubic-bezier(.2, .8, .2, 1),
+        height .12s ease,
+        border-radius .12s ease;
+}
+
+.eye-core.blink {
+    height: 5px;
+    border-radius: 4px;
+}
+
+/* ==========================
+AURA: ESFERA GIROSCÓPICA 3D
+(escena de 480px escalada al tamaño de la burbuja)
+========================== */
+
+.aura-wrap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 480px;
+    height: 480px;
+    margin: -240px 0 0 -240px;
+    transform: scale(.1771);
+    transform-origin: center;
+    pointer-events: none;
+}
+
+.ring {
+    position: absolute;
+    transform-style: preserve-3d;
+}
+
+.ringband {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 14px solid #c9d8e0;
+    box-shadow: 0 0 20px rgba(150, 220, 255, .35),
+        inset 0 0 20px rgba(0, 0, 0, .3);
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, .15),
+        transparent 40%);
+}
+
+.node {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #3a4a55, #1c262e);
+    border: 1px solid rgba(160, 220, 255, .5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9fe8ff;
+    font-size: 20px;
+    box-shadow: 0 0 14px rgba(120, 200, 255, .5);
+}
+
+@keyframes spinZ {
+    from { transform: rotateX(70deg) rotateZ(0deg); }
+    to   { transform: rotateX(70deg) rotateZ(360deg); }
+}
+
+@keyframes spinY {
+    from { transform: rotateX(20deg) rotateY(0deg); }
+    to   { transform: rotateX(20deg) rotateY(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 60px 10px color-mix(in srgb, var(--face-glow) 55%, transparent),
+            inset -15px -15px 40px rgba(0, 0, 0, .5),
+            inset 10px 10px 30px rgba(180, 255, 240, .3);
+    }
+    50% {
+        box-shadow: 0 0 80px 18px color-mix(in srgb, var(--face-glow) 75%, transparent),
+            inset -15px -15px 40px rgba(0, 0, 0, .5),
+            inset 10px 10px 30px rgba(180, 255, 240, .4);
+    }
+}
+
+/* ==========================
+PANEL CHAT (dentro de la misma superficie)
+========================== */
+
+.panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(.96);
+    transition:
+        opacity .35s ease .58s,
+        transform .7s cubic-bezier(.2, .85, .2, 1) .5s;
+}
+
+.entidad.open .panel {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+/* ==========================
+HEADER
+========================== */
+
+.header {
+    height: 70px;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 19px;
+    border-bottom: 1px solid rgba(150, 200, 255, .10);
+    background: rgba(255, 255, 255, .03);
+    -webkit-app-region: drag;
+}
+
+.titulo {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .2px;
+}
+
+.titulo::before {
+    content: "";
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: #62dcff;
+}
+
+.header-btn {
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 50%;
+    color: #04302c;
+    font-size: 17px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: radial-gradient(circle at 35% 30%, #7ff5e0, #1fb8a8 45%, #0a6b63 75%, #04302c 100%);
+    box-shadow: 0 0 14px rgba(60, 240, 210, .4);
+    -webkit-app-region: no-drag;
+    transition: filter .18s ease, box-shadow .18s ease;
+}
+
+.header-btn:hover {
+    filter: brightness(1.18);
+    box-shadow: 0 0 20px rgba(60, 240, 210, .65);
+}
+
+/* ==========================
+MENSAJES
+========================== */
+
+.mensajes {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mensajes::-webkit-scrollbar {
+    width: 5px;
+}
+
+.mensajes::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .15);
+    border-radius: 10px;
+}
+
+.msg {
+    max-width: 82%;
+    padding: 12px 15px;
+    border-radius: 17px 17px 17px 5px;
+    background: rgba(76, 132, 255, .14);
+    border: 1px solid rgba(132, 194, 255, .14);
+    color: #edf7ff;
+    line-height: 1.42;
+    word-break: break-word;
+}
+
+.msg.usuario {
+    align-self: flex-end;
+    border-radius: 17px 17px 5px 17px;
+    background: linear-gradient(135deg, #365dff, #7047ff);
+    border-color: transparent;
+}
+
+.msg img {
+    display: block;
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 8px 0 4px;
+}
+
+/* respuesta de IA: contenedor sin burbuja; imagenes a ancho completo */
+.ai {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ai .msg {
+    align-self: flex-start;
+}
+
+.ai .msg-embed {
+    width: 100%;
+}
+
+.ai .msg-embed img {
+    display: block;
+    width: 100%;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .06);
+    min-height: 110px;
+    object-fit: contain;
+}
+
+.ai.stream {
+    padding: 12px 15px;
+    border-radius: 17px 17px 17px 5px;
+    background: rgba(76, 132, 255, .14);
+    border: 1px solid rgba(132, 194, 255, .14);
+    color: #edf7ff;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.msg a {
+    color: #62dcff;
+    text-decoration: underline;
+}
+
+.msg code {
+    background: rgba(255, 255, 255, .09);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: Consolas, monospace;
+}
+
+#loading {
+    opacity: .7;
+}
+
+/* ==========================
+INPUT
+========================== */
+
+.inputArea {
+    padding: 14px;
+    display: flex;
+    gap: 9px;
+    border-top: 1px solid rgba(150, 200, 255, .10);
+    background: rgba(0, 0, 0, .08);
+}
+
+.input {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    outline: none;
+    border-radius: 13px;
+    padding: 0 13px;
+    background: rgba(255, 255, 255, .055);
+    color: #fff;
+    font-size: 14px;
+}
+
+.input::placeholder {
+    color: #8e9db5;
+}
+
+.btn-send {
+    height: 44px;
+    width: 44px;
+    min-width: 44px;
+    border: 0;
+    border-radius: 50%;
+    color: #04302c;
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: radial-gradient(circle at 35% 30%, #7ff5e0, #1fb8a8 45%, #0a6b63 75%, #04302c 100%);
+    box-shadow: 0 0 18px rgba(60, 240, 210, .5);
+    transition: filter .18s ease, box-shadow .18s ease;
+}
+
+.btn-send:hover {
+    filter: brightness(1.18);
+    box-shadow: 0 0 26px rgba(60, 240, 210, .8);
+}
+
+.btn-mic {
+    height: 44px;
+    width: 44px;
+    min-width: 44px;
+    border: 0;
+    border-radius: 50%;
+    font-size: 19px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: radial-gradient(circle at 35% 30%, #7ff5e0, #1fb8a8 45%, #0a6b63 75%, #04302c 100%);
+    box-shadow: 0 0 14px rgba(60, 240, 210, .4);
+    color: #04302c;
+    transition: filter .18s ease, box-shadow .18s ease;
+}
+
+.btn-mic:hover {
+    filter: brightness(1.18);
+    box-shadow: 0 0 20px rgba(60, 240, 210, .65);
+}
+
+.btn-mic.grabando {
+    background: #e0394b;
+    animation: pulso 1s ease-in-out infinite;
+}
+
+@keyframes pulso {
+    50% { opacity: .55; }
+}
+
+/* ==========================
+AREAS DE REDIMENSIONADO (invisibles, ventana sin marco)
+========================== */
+
+.rh {
+    position: absolute;
+    z-index: 10;
+    -webkit-app-region: no-drag;
+}
+
+.rh-corner {
+    width: 16px;
+    height: 16px;
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+}
+
+.rh-bottom {
+    height: 6px;
+    left: 18px;
+    right: 18px;
+    bottom: 0;
+    cursor: ns-resize;
+}
+
+.rh-right {
+    width: 6px;
+    top: 18px;
+    bottom: 18px;
+    right: 0;
+    cursor: ew-resize;
+}
