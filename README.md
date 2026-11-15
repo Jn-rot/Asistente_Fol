@@ -11,9 +11,11 @@ Asistente conversacional flotante con interfaz tipo *Claude Code*, construido co
 Los instaladores están en **Releases** (no en la lista de archivos del repositorio):
 
 - **Página de descargas:** <https://github.com/Jn-rot/Asistente_Fol/releases/latest>
-- **Windows:** [Fol-Setup-1.0.1.exe](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.1/Fol-Setup-1.0.1.exe)
-- **Linux AppImage:** [Fol-1.0.1.AppImage](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.1/Fol-1.0.1.AppImage)
-- **Linux .deb:** [asistentefinal_1.0.1_amd64.deb](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.1/asistentefinal_1.0.1_amd64.deb)
+- **Windows:** [Fol-Setup-1.0.2.exe](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.2/Fol-Setup-1.0.2.exe)
+- **Linux AppImage:** [Fol-1.0.2.AppImage](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.2/Fol-1.0.2.AppImage)
+- **Linux .deb:** [asistentefinal_1.0.2_amd64.deb](https://github.com/Jn-rot/Asistente_Fol/releases/download/v1.0.2/asistentefinal_1.0.2_amd64.deb)
+
+> Los instaladores **no incluyen** ninguna API key. Al abrir la app por primera vez, entra en **Ajustes ⚙** y pega la key que te haya compartido el autor (o usa la tuya propia de Groq).
 
 ---
 
@@ -64,23 +66,22 @@ Los instaladores están en **Releases** (no en la lista de archivos del reposito
 
 ## Configurar la API key
 
-Los instaladores publicados en **Releases** ya salen con una key configurada
-(inyectada durante el build desde el secreto `GROQ_API_KEY`), así que funcionan
-directamente. Aun así, cada usuario puede usar su propia key:
+La app necesita una API key de Groq para el chat y la voz. Los instaladores
+publicados **no incluyen ninguna key**: pide la key al autor o crea la tuya.
 
 1. Crea una cuenta en <https://console.groq.com>.
 2. Ve a **API Keys** → **Create API Key**.
 3. Abre la app, pulsa el engranaje **⚙** en la barra superior.
 4. Pega la key (`gsk_...`) en **API key de Groq** y pulsa **Guardar**.
 
-La key se almacena cifrada en el equipo (nunca se sube al repositorio).
+La key se almacena cifrada en el equipo y solo hay que configurarla una vez.
 
 > Solo para desarrollo: crea un `config.js` en la raíz con:
 > ```js
 > const API_KEY = 'gsk_tu_clave'
 > module.exports = { API_KEY }
 > ```
-> Ese archivo está excluido de Git mediante `.gitignore`.
+> Ese archivo está excluido de Git y de los instaladores publicados.
 
 ---
 
@@ -151,8 +152,8 @@ El workflow de GitHub Actions compila Linux y Windows y publica los artefactos e
 
 - Las conversaciones se guardan en `~/.config/asistentefinal/` (Linux) o `%APPDATA%/asistentefinal/` (Windows).
 - Los archivos `sesiones.bin` y `apikey.bin` usan cifrado del sistema (`safeStorage`) y permisos restringidos (`0600`). Si el llavero no está disponible, se guardan en texto plano con permisos restringidos.
-- `config.js` **nunca** se sube al repositorio; en CI se genera desde el secreto `GROQ_API_KEY` solo durante el build.
-- La key incluida en los instaladores puede extraerse del binario (igual que cualquier app de escritorio). Si se filtra, revócala en Groq y publica una nueva versión.
+- `config.js` **nunca** se sube al repositorio ni se incluye en los instaladores publicados.
+- Los instaladores salen sin key: cada usuario pega una en Ajustes y queda cifrada en su equipo.
 - No se envían conversaciones a servidores propios: el chat va directo a Groq y las imágenes a Pollinations.
 
 ---
